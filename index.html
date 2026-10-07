@@ -34,7 +34,6 @@ body{font-family:'Segoe UI',system-ui,sans-serif;color:#f4eddc}
 .wing{animation:wing 5s ease-in-out infinite}
 @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
 .shimmer{background:linear-gradient(100deg,rgba(232,201,106,0) 40%,rgba(232,201,106,.55) 50%,rgba(232,201,106,0) 60%);background-size:200% 100%;animation:shimmer 3.5s linear infinite}
-/* АНИМАЦИИ ДЛЯ ВСЕХ ФОТО */
 .mv-kb{animation:kb 24s ease-in-out infinite alternate}
 .mv-bob{animation:bob 6s ease-in-out infinite}
 .mv-float{animation:floaty 7s ease-in-out infinite}
@@ -186,6 +185,7 @@ h1.title{font-family:Georgia,'Times New Roman',serif;font-weight:700;color:#f7f1
     <div class="rv rv-zoom glow" style="--rd:500ms;position:absolute;inset:70px"><img class="blend mv-float" src="https://commons.wikimedia.org/wiki/Special:FilePath/Arzhan_deer.jpg?width=900" style="width:100%;height:100%;object-fit:contain;border-radius:50%"></div>
   </div>
 </section>
+
 <!-- SLIDE 6 -->
 <section class="slide" id="s6">
   <div style="position:absolute;left:110px;top:64px;right:110px;display:flex;justify-content:space-between;align-items:flex-end">
@@ -196,22 +196,22 @@ h1.title{font-family:Georgia,'Times New Roman',serif;font-weight:700;color:#f7f1
     <div class="rv" style="--rd:600ms;font-size:19px;letter-spacing:.24em;color:#c9b6f2;font-weight:600">КҮШ • ЕРКІНДІК • РУХ</div>
   </div>
   <div style="position:absolute;left:110px;right:110px;top:225px;bottom:66px;display:grid;grid-template-columns:repeat(4,1fr);gap:22px">
-    <div class="rv rv-up animal" style="--rd:500ms">
+    <div class="rv rv-up animal" data-animal="bugu" style="--rd:500ms;cursor:pointer">
       <div style="flex:1;display:flex;align-items:center;justify-content:center;overflow:hidden"><img class="mv-bob" src="https://commons.wikimedia.org/wiki/Special:FilePath/015_Wild_Red_Deer_Switzerland_Photo_by_Giles_Laurent.jpg?width=700" style="width:100%;height:100%;object-fit:cover"></div>
       <div><div style="font-family:Georgia,serif;font-size:40px;letter-spacing:.14em"><span class="gold"><b>БҰҒЫ</b></span></div>
       <div style="font-size:21px;color:#f0e9d6;margin-top:6px;font-weight:500">Жаңару, өмір, табиғатпен байланыс</div></div>
     </div>
-    <div class="rv rv-up animal" style="--rd:880ms">
+    <div class="rv rv-up animal" data-animal="bars" style="--rd:880ms;cursor:pointer">
       <div style="flex:1;display:flex;align-items:center;justify-content:center;overflow:hidden"><img class="mv-kb" src="https://commons.wikimedia.org/wiki/Special:FilePath/012_Jaguar_entering_the_river_in_Encontro_das_%C3%81guas_State_Park_Photo_by_Giles_Laurent.jpg?width=700" style="width:100%;height:100%;object-fit:cover"></div>
       <div><div style="font-family:Georgia,serif;font-size:40px;letter-spacing:.14em"><span class="gold"><b>БАРЫС</b></span></div>
       <div style="font-size:21px;color:#f0e9d6;margin-top:6px;font-weight:500">Күш, батылдық, билік</div></div>
     </div>
-    <div class="rv rv-up animal" style="--rd:1260ms">
+    <div class="rv rv-up animal" data-animal="burst" style="--rd:1260ms;cursor:pointer">
       <div style="flex:1;display:flex;align-items:center;justify-content:center;overflow:hidden"><img class="wing" src="https://commons.wikimedia.org/wiki/Special:FilePath/016_Wild_Golden_Eagle_in_flight_at_Pfyn-Finges_(Switzerland)_Photo_by_Giles_Laurent.jpg?width=700" style="width:100%;height:100%;object-fit:cover"></div>
       <div><div style="font-family:Georgia,serif;font-size:40px;letter-spacing:.14em"><span class="gold"><b>БҮРКІТ</b></span></div>
       <div style="font-size:21px;color:#f0e9d6;margin-top:6px;font-weight:500">Еркіндік, биіктік, рух</div></div>
     </div>
-    <div class="rv rv-up animal" style="--rd:1640ms">
+    <div class="rv rv-up animal" data-animal="zhylky" style="--rd:1640ms;cursor:pointer">
       <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;overflow:hidden">
         <img class="glow" src="https://commons.wikimedia.org/wiki/Special:FilePath/Horse_gif.gif" style="width:85%;filter:invert(1);mix-blend-mode:screen">
         <video id="horseVid" autoplay muted loop playsinline style="width:92%;border-radius:10px;border:1px solid rgba(232,201,106,.4)">
@@ -223,7 +223,6 @@ h1.title{font-family:Georgia,'Times New Roman',serif;font-weight:700;color:#f7f1
     </div>
   </div>
 </section>
-
 <!-- SLIDE 7 -->
 <section class="slide" id="s7">
   <div style="position:absolute;left:110px;top:64px">
@@ -240,6 +239,15 @@ h1.title{font-family:Georgia,'Times New Roman',serif;font-weight:700;color:#f7f1
     <div class="rv rv-zoom pulse" style="--rd:100ms;position:absolute;left:50%;top:470px;transform:translate(-50%,-50%);width:260px;height:260px;border-radius:50%;background:radial-gradient(circle at 38% 32%,#f3dd9a,#d4af37 55%,#8a6a1c);display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 0 80px rgba(212,175,55,.5)">
       <div style="font-family:Georgia,serif;font-weight:700;font-size:46px;color:#241a04;letter-spacing:.06em">ТАБИҒАТ</div>
       <div style="font-size:17px;color:#4a3a10;letter-spacing:.3em;margin-top:6px">МЕКЕН • КҮШ • РУХ</div>
+    </div>
+    <div class="rv" style="--rd:500ms;position:absolute;left:50%;top:470px;transform:translate(-50%,-50%);width:430px;height:430px">
+      <div class="spin" style="position:absolute;inset:0;border:1px dashed rgba(232,201,106,.4);border-radius:50%"></div>
+      <div class="spin" style="position:absolute;inset:0;animation-duration:28s">
+        <span style="position:absolute;top:-26px;left:50%;transform:translateX(-50%);font-size:38px;filter:drop-shadow(0 0 12px rgba(232,201,106,.7))">🦌</span>
+        <span style="position:absolute;bottom:-26px;left:50%;transform:translateX(-50%);font-size:38px;filter:drop-shadow(0 0 12px rgba(232,201,106,.7))">🐆</span>
+        <span style="position:absolute;left:-26px;top:50%;transform:translateY(-50%);font-size:38px;filter:drop-shadow(0 0 12px rgba(232,201,106,.7))">🦅</span>
+        <span style="position:absolute;right:-26px;top:50%;transform:translateY(-50%);font-size:38px;filter:drop-shadow(0 0 12px rgba(232,201,106,.7))">🐎</span>
+      </div>
     </div>
     <div class="rv rv-pop" style="--rd:1000ms;position:absolute;left:330px;top:330px;transform:translate(-50%,-50%);border:1px solid rgba(232,201,106,.55);background:rgba(10,15,40,.92);border-radius:14px;padding:16px 26px;text-align:center;box-shadow:0 0 30px rgba(0,0,0,.5)">
       <div style="font-family:Georgia,serif;font-size:29px;letter-spacing:.1em" class="gold"><b>АДАМ</b></div>
@@ -263,7 +271,7 @@ h1.title{font-family:Georgia,'Times New Roman',serif;font-weight:700;color:#f7f1
   </div>
 </section>
 
-<!-- SLIDE 8 (ИСПРАВЛЕН) -->
+<!-- SLIDE 8 -->
 <section class="slide" id="s8">
   <div style="position:absolute;left:110px;top:64px">
     <div class="rv" style="--rd:100ms"><span class="kick">06 — Қазіргі мәдениет</span></div>
@@ -273,23 +281,23 @@ h1.title{font-family:Georgia,'Times New Roman',serif;font-weight:700;color:#f7f1
   <div style="position:absolute;left:110px;right:110px;top:225px;bottom:330px;display:grid;grid-template-columns:1fr 260px 1fr;gap:30px;align-items:stretch">
     <div class="rv rv-left" style="--rd:500ms;position:relative">
       <div class="panel" style="height:100%;display:flex;align-items:center;justify-content:center"><img class="blend mv-bob" src="https://commons.wikimedia.org/wiki/Special:FilePath/Arzhan_deer.jpg?width=900" style="width:85%"></div>
-      <div style="position:absolute;left:0;right:0;bottom:0;padding:16px 22px;background:linear-gradient(transparent,rgba(4,6,15,.92));font-size:29px" class="gold"><b>ЕЖЕЛГІ</b><span style="font-size:19px;color:#f0e9d6;margin-left:12px;font-weight:600">сақ алтын бұғысы</span></div>
+      <div style="position:absolute;left:0;right:0;bottom:0;padding:16px 22px;background:#0a0f28;font-size:29px;border-top:1px solid rgba(232,201,106,.6)" class="gold"><b>ЕЖЕЛГІ</b><span style="font-size:19px;color:#f0e9d6;margin-left:12px;font-weight:600">сақ алтын бұғысы</span></div>
     </div>
     <div style="position:relative;display:flex;align-items:center;justify-content:center">
       <div class="rv" style="--rd:900ms;position:absolute;left:-10px;right:-10px;top:50%;height:2px;background:linear-gradient(90deg,#e8c96a,#8b6fc7,#e8c96a);box-shadow:0 0 18px rgba(232,201,106,.9)"></div>
-      <div class="rv rv-zoom shimmer" style="--rd:1100ms;position:relative;width:92px;height:92px;border-radius:50%;border:2px solid #e8c96a;background:rgba(12,18,48,.9);display:flex;align-items:center;justify-content:center;font-size:34px;color:#e8c96a;box-shadow:0 0 34px rgba(232,201,106,.55)">→</div>
+      <div class="rv rv-zoom shimmer" style="--rd:1100ms;position:relative;width:92px;height:92px;border-radius:50%;border:2px solid #e8c96a;background:#0c1230;display:flex;align-items:center;justify-content:center;font-size:34px;color:#e8c96a;box-shadow:0 0 34px rgba(232,201,106,.55)">→</div>
     </div>
     <div class="rv rv-right" style="--rd:1400ms;position:relative">
       <div class="panel" style="height:100%;display:flex;align-items:center;justify-content:center"><img class="mv-kb" src="https://commons.wikimedia.org/wiki/Special:FilePath/18._Flying_elk_with_griffin_burial_mound_Issyk_(V.-IV._B.C.)_Kazakhstan.JPG?width=900" style="width:100%;height:100%;object-fit:cover"></div>
-      <div style="position:absolute;left:0;right:0;bottom:0;padding:16px 22px;background:linear-gradient(transparent,rgba(4,6,15,.92));font-size:29px;color:#cfc0f0"><b>ҚАЗІРГІ</b><span style="font-size:19px;color:#f0e9d6;margin-left:12px;font-weight:600">ұлттық мотивтер өнерде</span></div>
+      <div style="position:absolute;left:0;right:0;bottom:0;padding:16px 22px;background:#0a0f28;font-size:29px;color:#cfc0f0;border-top:1px solid rgba(139,111,199,.6)"><b>ҚАЗІРГІ</b><span style="font-size:19px;color:#f0e9d6;margin-left:12px;font-weight:600">ұлттық мотивтер өнерде</span></div>
     </div>
   </div>
   <div style="position:absolute;left:110px;right:110px;bottom:60px;display:grid;grid-template-columns:repeat(5,1fr);gap:16px">
-    <div class="rv rv-up" style="--rd:1800ms;border:1px solid rgba(232,201,106,.55);background:rgba(232,201,106,.1);border-radius:12px;padding:16px 18px;min-height:118px"><div style="font-size:21px;color:#e8c96a"><b>◆ Сән дизайны</b></div><div style="font-size:18px;color:#f7f1de;margin-top:6px;line-height:1.4;font-weight:600">Ұлттық өрнек пен жануар бейнелері киімде</div></div>
-    <div class="rv rv-up" style="--rd:1960ms;border:1px solid rgba(232,201,106,.55);background:rgba(232,201,106,.1);border-radius:12px;padding:16px 18px;min-height:118px"><div style="font-size:21px;color:#e8c96a"><b>◆ Зергерлік өнер</b></div><div style="font-size:18px;color:#f7f1de;margin-top:6px;line-height:1.4;font-weight:600">Ежелгі мотивтер заманауи әшекейлерде</div></div>
-    <div class="rv rv-up" style="--rd:2120ms;border:1px solid rgba(232,201,106,.55);background:rgba(232,201,106,.1);border-radius:12px;padding:16px 18px;min-height:118px"><div style="font-size:21px;color:#e8c96a"><b>◆ Графикалық дизайн</b></div><div style="font-size:18px;color:#f7f1de;margin-top:6px;line-height:1.4;font-weight:600">Логотиптер, иллюстрациялар, плакаттар</div></div>
-    <div class="rv rv-up" style="--rd:2280ms;border:1px solid rgba(232,201,106,.55);background:rgba(232,201,106,.1);border-radius:12px;padding:16px 18px;min-height:118px"><div style="font-size:21px;color:#e8c96a"><b>◆ Архитектура</b></div><div style="font-size:18px;color:#f7f1de;margin-top:6px;line-height:1.4;font-weight:600">Ұлттық мотивтер ғимараттар мен кеңістіктерде</div></div>
-    <div class="rv rv-up" style="--rd:2440ms;border:1px solid rgba(232,201,106,.55);background:rgba(232,201,106,.1);border-radius:12px;padding:16px 18px;min-height:118px"><div style="font-size:21px;color:#e8c96a"><b>◆ Мәдени бренд</b></div><div style="font-size:18px;color:#f7f1de;margin-top:6px;line-height:1.4;font-weight:600">Тарихи-мәдени ерекшелік символы</div></div>
+    <div class="rv rv-up" style="--rd:1800ms;background:#1c1546;border:2px solid rgba(232,201,106,.65);border-radius:12px;padding:16px 18px;min-height:118px"><div style="font-size:21px;color:#e8c96a"><b>◆ Сән дизайны</b></div><div style="font-size:18px;color:#f7f1de;margin-top:6px;line-height:1.4;font-weight:600">Ұлттық өрнек пен жануар бейнелері киімде</div></div>
+    <div class="rv rv-up" style="--rd:1960ms;background:#1c1546;border:2px solid rgba(232,201,106,.65);border-radius:12px;padding:16px 18px;min-height:118px"><div style="font-size:21px;color:#e8c96a"><b>◆ Зергерлік өнер</b></div><div style="font-size:18px;color:#f7f1de;margin-top:6px;line-height:1.4;font-weight:600">Ежелгі мотивтер заманауи әшекейлерде</div></div>
+    <div class="rv rv-up" style="--rd:2120ms;background:#1c1546;border:2px solid rgba(232,201,106,.65);border-radius:12px;padding:16px 18px;min-height:118px"><div style="font-size:21px;color:#e8c96a"><b>◆ Графикалық дизайн</b></div><div style="font-size:18px;color:#f7f1de;margin-top:6px;line-height:1.4;font-weight:600">Логотиптер, иллюстрациялар, плакаттар</div></div>
+    <div class="rv rv-up" style="--rd:2280ms;background:#1c1546;border:2px solid rgba(232,201,106,.65);border-radius:12px;padding:16px 18px;min-height:118px"><div style="font-size:21px;color:#e8c96a"><b>◆ Архитектура</b></div><div style="font-size:18px;color:#f7f1de;margin-top:6px;line-height:1.4;font-weight:600">Ұлттық мотивтер ғимараттар мен кеңістіктерде</div></div>
+    <div class="rv rv-up" style="--rd:2440ms;background:#1c1546;border:2px solid rgba(232,201,106,.65);border-radius:12px;padding:16px 18px;min-height:118px"><div style="font-size:21px;color:#e8c96a"><b>◆ Мәдени бренд</b></div><div style="font-size:18px;color:#f7f1de;margin-top:6px;line-height:1.4;font-weight:600">Тарихи-мәдени ерекшелік символы</div></div>
   </div>
 </section>
 
@@ -324,7 +332,7 @@ h1.title{font-family:Georgia,'Times New Roman',serif;font-weight:700;color:#f7f1
 
 <!-- SLIDE 10 -->
 <section class="slide" id="s10">
-  <div class="orna spin" style="left:50%;top:50%;width:700px;height:700px;transform:translate(-50%,-50%);opacity:.25"><i></i></div>
+  <div class="orna spin" style="left:50%;top:50%;width:700px;height:700px;transform:translate(-50%,-50%);opacity:.2"><i></i></div>
   <span class="spark drift" style="position:absolute;left:960px;top:130px">✦</span>
   <div style="position:absolute;left:110px;top:70px;width:880px;z-index:2">
     <div class="rv" style="--rd:100ms"><span class="kick">Дереккөздер</span></div>
@@ -342,16 +350,32 @@ h1.title{font-family:Georgia,'Times New Roman',serif;font-weight:700;color:#f7f1
     <div style="text-align:center;margin-top:12px;font-size:17px;letter-spacing:.22em;color:rgba(232,201,106,.9);font-weight:600">САҚА АЛТЫН БҰЙЫМДАРЫ • ИСЫҚ ҚОРҒАНЫ</div>
   </div>
   <div id="thanks">
-    <div class="orna spin" style="position:relative;width:380px;height:380px;margin-bottom:20px"><i></i><img class="blend mv-float" src="https://commons.wikimedia.org/wiki/Special:FilePath/Arzhan_deer.jpg?width=600" style="position:absolute;inset:60px;width:260px"></div>
-    <div style="font-family:Georgia,serif;font-size:77px;color:#f7f1de;text-shadow:0 6px 40px rgba(0,0,0,.6)">Назарларыңызға <span class="gold">рақмет!</span></div>
-    <div class="rule" style="margin-top:26px"></div>
+    <div style="position:relative;width:260px;height:260px;margin-bottom:34px;flex:none">
+      <div class="orna spin" style="inset:0"><i></i></div>
+      <img class="blend spin" src="https://commons.wikimedia.org/wiki/Special:FilePath/18._Flying_elk_with_griffin_burial_mound_Issyk_(V.-IV._B.C.)_Kazakhstan.JPG?width=600" style="position:absolute;inset:22px;width:216px;height:216px;border-radius:50%;border:3px solid rgba(232,201,106,.65);box-shadow:0 0 44px rgba(232,201,106,.45);object-fit:cover">
+    </div>
+    <div style="font-family:Georgia,serif;font-size:58px;color:#f7f1de;text-shadow:0 6px 40px rgba(0,0,0,.65);text-align:center;line-height:1.25;max-width:1300px;padding:0 40px">Назарларыңызға<br><span class="gold">рақмет!</span></div>
+    <div class="rule" style="margin-top:24px"></div>
+    <div style="margin-top:14px;font-size:20px;letter-spacing:.3em;color:rgba(232,201,106,.85);font-weight:600">ИС-25-1 • МӘДЕНИЕТТАНУ</div>
   </div>
 </section>
 
 </div></div>
 <div id="hint">← → АРАЛЫҚ — НАВИГАЦИЯ</div>
 <div id="counter">01 / 10</div>
-<div id="hud"><button id="pb">‹</button><div id="dots"></div><button id="nb">›</button></div>
+<div id="hud"><button id="pb">‹</button><div id="dots"></div><button id="nb">›</button><button id="mute" style="margin-left:14px">🔊</button></div>
+
+<audio id="musA" loop preload="auto">
+  <source src="kuy.mp3" type="audio/mpeg">
+  <source src="https://commons.wikimedia.org/wiki/Special:FilePath/Kazakhstan_(instrumental_2).ogg" type="audio/ogg">
+</audio>
+<audio id="musB" loop preload="auto">
+  <source src="https://commons.wikimedia.org/wiki/Special:FilePath/Anthem_of_Kazakhstan_1991-2006.ogg" type="audio/ogg">
+</audio>
+<audio id="aBugu" preload="auto" src="https://commons.wikimedia.org/wiki/Special:FilePath/Red_Deer_(Cervus_elaphus)_(W1CDR0001424_BD3).ogg"></audio>
+<audio id="aBars" preload="auto" src="bars.mp3"></audio>
+<audio id="aBurst" preload="auto" src="https://commons.wikimedia.org/wiki/Special:FilePath/Golden_Eagle_(Aquila_chrysaetos)_(W1CDR0001387_BD6).ogg"></audio>
+<audio id="aZhy" preload="auto" src="https://commons.wikimedia.org/wiki/Special:FilePath/Wiehern.ogg"></audio>
 
 <script>
 const stage=document.getElementById('stage');
@@ -410,6 +434,76 @@ stage.addEventListener('click',e=>{if(e.target.closest('button'))return;next();}
 
 const hv=document.getElementById('horseVid');
 if(hv)hv.addEventListener('timeupdate',()=>{if(hv.currentTime>=10)hv.currentTime=0;});
+
+let AC=null;
+function ac(){if(!AC)AC=new (window.AudioContext||window.webkitAudioContext)();return AC;}
+function animalSound(kind){
+  const ctx=ac(), t=ctx.currentTime;
+  const play=(f0,f1,dur,type,vol,delay)=>{
+    const o=ctx.createOscillator(),g=ctx.createGain();
+    o.type=type;
+    o.frequency.setValueAtTime(f0,t+delay);
+    o.frequency.exponentialRampToValueAtTime(f1,t+delay+dur);
+    g.gain.setValueAtTime(0.0001,t+delay);
+    g.gain.exponentialRampToValueAtTime(vol,t+delay+0.04);
+    g.gain.exponentialRampToValueAtTime(0.0001,t+delay+dur);
+    o.connect(g); g.connect(ctx.destination);
+    o.start(t+delay); o.stop(t+delay+dur+0.05);
+  };
+  if(kind==='bars'){ play(95,65,.5,'sawtooth',.28,0); play(88,58,.5,'sawtooth',.22,.32); play(102,60,.6,'sawtooth',.26,.64); }
+  else if(kind==='bugu'){ play(520,780,.28,'sine',.25,0); play(780,440,.38,'sine',.22,.3); }
+  else if(kind==='burst'){ play(1400,1900,.32,'sine',.2,0); play(1900,1050,.5,'sine',.18,.34); }
+  else if(kind==='zhylky'){ play(300,980,.42,'sawtooth',.18,0); play(980,400,.65,'sawtooth',.16,.42); }
+}
+
+const musA=document.getElementById('musA'), musB=document.getElementById('musB');
+const muteBtn=document.getElementById('mute');
+let soundOn=true, musicStarted=false;
+function switchTrack(i){
+  if(!musicStarted)return;
+  musA.pause(); musB.pause();
+  if(!soundOn)return;
+  if(i===9){ musB.currentTime=0; musB.volume=.6; musB.play().catch(()=>{}); }
+  else { musA.volume=.25; musA.play().catch(()=>{}); }
+}
+function startMusic(){
+  if(musicStarted)return; musicStarted=true;
+  switchTrack(cur);
+}
+muteBtn.onclick=e=>{
+  e.stopPropagation();
+  soundOn=!soundOn;
+  muteBtn.textContent=soundOn?'🔊':'🔇';
+  if(soundOn)switchTrack(cur); else {musA.pause();musB.pause();}
+};
+const _show=show;
+show=function(i){_show(i);switchTrack(i);};
+['click','keydown','touchstart'].forEach(ev=>addEventListener(ev,startMusic,{passive:true}));
+
+let aTimer=null, curA=null;
+function stopAnimal(){
+  clearTimeout(aTimer);
+  if(curA){curA.pause();curA.loop=false;curA=null;}
+}
+function playAnimal(el,kind){
+  stopAnimal();
+  if(el&&!el.error&&el.getAttribute('src')){
+    curA=el;
+    el.loop=true;
+    el.currentTime=0;
+    el.play().then(()=>{
+      aTimer=setTimeout(stopAnimal,4000);
+    }).catch(()=>{animalSound(kind);});
+  } else animalSound(kind);
+}
+const AMAP={bugu:'aBugu',bars:'aBars',burst:'aBurst',zhylky:'aZhy'};
+document.querySelectorAll('#s6 .animal').forEach(p=>{
+  p.addEventListener('click',e=>{
+    e.stopPropagation();
+    startMusic();
+    playAnimal(document.getElementById(AMAP[p.dataset.animal]),p.dataset.animal);
+  });
+});
 
 const cv=document.getElementById('dust'),cx=cv.getContext('2d');
 let W,H,ps=[];
