@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="utf-8">
+<title>Көшпелілердің қолөнері және «аң стилі» — ИС-25-1</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;background:#05070f}
+body{font-family:'Segoe UI',system-ui,sans-serif;color:#f4eddc}
+#dust{position:fixed;inset:0;z-index:5;pointer-events:none}
+#viewport{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:radial-gradient(120% 120% at 50% 0%,#0d1330 0%,#070a18 60%,#04060e 100%)}
+#stage{position:relative;width:1600px;height:900px;transform-origin:center;flex:none}
+.slide{position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity .8s,visibility .8s;overflow:hidden;border-radius:6px;background:linear-gradient(135deg,#0c1230 0%,#141b3f 45%,#1a1440 100%)}
+.slide.active{opacity:1;visibility:visible}
+.slide::before{content:'';position:absolute;inset:0;background:radial-gradient(80% 60% at 70% 20%,rgba(139,111,199,.14),transparent 60%),radial-gradient(60% 50% at 15% 85%,rgba(212,175,55,.08),transparent 60%);pointer-events:none}
+.rv{opacity:0;transition:opacity .9s cubic-bezier(.22,.61,.36,1),transform .9s cubic-bezier(.22,.61,.36,1),clip-path 1s cubic-bezier(.22,.61,.36,1),stroke-dashoffset 1.6s ease,filter .9s;transition-delay:var(--rd,0ms)}
+.rv-up{transform:translateY(46px)}.rv-left{transform:translateX(-60px)}.rv-right{transform:translateX(60px)}
+.rv-zoom{transform:scale(.78)}.rv-pop{transform:scale(.4)}.rv-wipe{clip-path:inset(0 100% 0 0)}
+.rv.on{opacity:1;transform:none;clip-path:inset(0 0 0 0)}
+.draw{stroke-dasharray:1;stroke-dashoffset:1}.draw.on{stroke-dashoffset:0}
+@keyframes kb{0%{transform:scale(1)}100%{transform:scale(1.14) translate(-14px,-10px)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spin{animation:spin 46s linear infinite}.spin-rev{animation:spin 60s linear infinite reverse}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
+.floaty{animation:floaty 7s ease-in-out infinite}
+@keyframes drift{0%,100%{transform:translate(0,0) rotate(0)}50%{transform:translate(12px,-14px) rotate(3deg)}}
+.drift{animation:drift 11s ease-in-out infinite}
+@keyframes glowp{0%,100%{filter:drop-shadow(0 0 14px rgba(232,201,106,.35))}50%{filter:drop-shadow(0 0 34px rgba(232,201,106,.75))}}
+.glow{animation:glowp 4.5s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(232,201,106,0)}50%{box-shadow:0 0 42px 4px rgba(232,201,106,.25)}}
+.pulse{animation:pulse 4s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:scale(1.02)}50%{transform:scale(1.09)}}
+@keyframes wing{0%,100%{transform:scale(1.02) rotate(0)}50%{transform:scale(1.07) rotate(-1.4deg)}}
+.wing{animation:wing 5s ease-in-out infinite}
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+.shimmer{background:linear-gradient(100deg,rgba(232,201,106,0) 40%,rgba(232,201,106,.55) 50%,rgba(232,201,106,0) 60%);background-size:200% 100%;animation:shimmer 3.5s linear infinite}
+/* АНИМАЦИИ ДЛЯ ВСЕХ ФОТО */
+.mv-kb{animation:kb 24s ease-in-out infinite alternate}
+.mv-bob{animation:bob 6s ease-in-out infinite}
+.mv-float{animation:floaty 7s ease-in-out infinite}
+.kick{font-size:23px;letter-spacing:.42em;text-transform:uppercase;color:#c9b6f2;font-weight:600}
+h1.title{font-family:Georgia,'Times New Roman',serif;font-weight:700;color:#f7f1de;line-height:1.12;text-shadow:0 4px 30px rgba(0,0,0,.55)}
+.gold{color:#e8c96a}
+.rule{width:120px;height:2px;background:linear-gradient(90deg,transparent,#e8c96a,transparent);margin:18px 0}
+.badge{display:inline-flex;border:1px solid rgba(232,201,106,.45);border-radius:999px;padding:10px 26px;font-size:20px;letter-spacing:.14em;color:#e8c96a;background:rgba(232,201,106,.06)}
+.orna{position:absolute;border:2px solid rgba(232,201,106,.35);border-radius:50%;pointer-events:none}
+.orna i{position:absolute;inset:18px;border:1px dashed rgba(139,111,199,.4);border-radius:50%}
+.panel{border-radius:16px;border:1px solid rgba(232,201,106,.35);overflow:hidden;box-shadow:0 18px 50px rgba(0,0,0,.45);background:#0a0f28}
+.chip{border:1px solid rgba(139,111,199,.55);background:rgba(139,111,199,.13);border-radius:999px;padding:10px 24px;font-size:20px}
+.fact{border:1px solid rgba(232,201,106,.5);border-radius:14px;padding:22px 32px;background:rgba(232,201,106,.06);font-size:24px;line-height:1.55}
+.animal{border-radius:16px;border:1px solid rgba(232,201,106,.3);position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding:24px;box-shadow:0 16px 44px rgba(0,0,0,.5);background:#0a0f28}
+.blend{mix-blend-mode:lighten}
+.spark{color:rgba(232,201,106,.7);font-size:26px;text-shadow:0 0 14px rgba(232,201,106,.8)}
+#hud{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;align-items:center;justify-content:center;gap:26px;padding:14px 0;pointer-events:none}
+#hud button{pointer-events:auto;width:44px;height:44px;border-radius:50%;border:1px solid rgba(232,201,106,.5);background:rgba(10,14,34,.6);color:#e8c96a;font-size:20px;cursor:pointer}
+#hud button:hover{background:rgba(232,201,106,.18)}
+#dots{display:flex;gap:9px;pointer-events:auto}
+.dot{width:9px;height:9px;border-radius:50%;background:rgba(244,237,220,.22);cursor:pointer;transition:.35s}
+.dot.on{background:#e8c96a;transform:scale(1.5);box-shadow:0 0 10px rgba(232,201,106,.8)}
+#counter{position:fixed;top:20px;right:28px;z-index:20;font-size:15px;letter-spacing:.3em;color:rgba(232,201,106,.85)}
+#hint{position:fixed;top:20px;left:28px;z-index:20;font-size:13px;letter-spacing:.18em;color:rgba(244,237,220,.4)}
+#thanks{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;transition:opacity 1.4s;pointer-events:none}
+#s10.phase2 #litlist{opacity:0;transition:opacity 1s}
+#s10.phase2 #thanks{opacity:1;transition-delay:.9s}
+</style>
+</head>
+<body>
+<canvas id="dust"></canvas>
+<div id="viewport"><div id="stage">
+
+<!-- SLIDE 1 -->
+<section class="slide" id="s1">
+  <div style="position:absolute;inset:-40px;background:url('https://commons.wikimedia.org/wiki/Special:FilePath/Kazakh_yurts_at_night_in_the_Kyzylkum_desert,_Uzbekistan.jpg?width=1600') center/cover;animation:kb 30s ease-in-out infinite alternate"></div>
+  <div style="position:absolute;inset:0;background:linear-gradient(105deg,rgba(6,9,24,.94) 30%,rgba(10,13,36,.78) 55%,rgba(16,12,44,.65) 100%)"></div>
+  <div class="orna spin-rev" style="right:60px;top:70px;width:280px;height:280px"><i></i></div>
+  <span class="spark drift" style="position:absolute;left:520px;top:120px">✦</span>
+  <span class="spark floaty" style="position:absolute;left:900px;top:480px;font-size:20px">✦</span>
+  <div style="position:absolute;left:110px;top:130px;width:880px">
+    <div class="rv" style="--rd:200ms"><span class="kick">Мәдениеттану • ИС-25-1</span></div>
+    <div class="rule rv rv-wipe" style="--rd:500ms"></div>
+    <h1 class="title rv rv-zoom" style="--rd:800ms;font-size:90px">Көшпелілердің<br><span class="gold">қолөнері</span> және<br>«аң стилі»</h1>
+    <div class="rv rv-up" style="--rd:1500ms;margin-top:40px;font-size:29px;color:#f0e9d6;font-weight:600">Ермаш Амандық · Тұрсынбай Арай · Сапар Жанерке</div>
+    <div class="rv rv-up" style="--rd:1800ms;margin-top:18px"><span class="badge">Пәні: Мәдениеттану</span></div>
+  </div>
+  <div class="rv rv-right glow" style="--rd:2600ms;position:absolute;right:90px;bottom:40px;width:520px;text-align:center">
+    <img class="blend mv-float" src="https://commons.wikimedia.org/wiki/Special:FilePath/Arzhan_deer.jpg?width=900" style="width:100%;border-radius:12px">
+    <div style="font-size:18px;letter-spacing:.3em;color:rgba(232,201,106,.85);margin-top:8px;font-weight:600">АРЖАН БҰҒЫСЫ • САҚА «АҢ СТИЛІ»</div>
+  </div>
+</section>
+
+<!-- SLIDE 2 -->
+<section class="slide" id="s2">
+  <div style="position:absolute;left:110px;top:76px">
+    <div class="rv" style="--rd:100ms"><span class="kick">Презентация жоспары</span></div>
+    <h1 class="title rv rv-up" style="--rd:350ms;font-size:70px;margin-top:10px">Жоспар</h1>
+  </div>
+  <div class="orna spin floaty" style="right:80px;top:60px;width:220px;height:220px;opacity:.5"><i></i></div>
+  <span class="spark drift" style="position:absolute;right:400px;top:150px">✦</span>
+  <div style="position:absolute;left:150px;top:250px;bottom:90px;width:3px;background:rgba(232,201,106,.12)">
+    <div class="rv" style="--rd:400ms;width:3px;height:100%;background:linear-gradient(#e8c96a,#8b6fc7);box-shadow:0 0 14px rgba(232,201,106,.6)"></div>
+  </div>
+  <div id="planbox" style="position:absolute;left:110px;top:240px;bottom:80px;width:1300px;display:flex;flex-direction:column;justify-content:space-between"></div>
+</section>
+
+<!-- SLIDE 3 -->
+<section class="slide" id="s3">
+  <div style="position:absolute;left:110px;top:70px">
+    <div class="rv" style="--rd:100ms"><span class="kick">01 — Кіріспе</span></div>
+    <h1 class="title rv rv-up" style="--rd:300ms;font-size:62px;margin-top:8px">Көшпелі мәдениет <span class="gold">және қолөнер</span></h1>
+  </div>
+  <div class="rv rv-wipe" style="--rd:1500ms;position:absolute;left:140px;right:140px;top:236px;height:2px;background:linear-gradient(90deg,transparent,#e8c96a,#8b6fc7,#e8c96a,transparent);box-shadow:0 0 16px rgba(232,201,106,.8)"></div>
+  <div style="position:absolute;left:110px;top:250px;right:110px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:34px">
+    <div class="rv rv-up" style="--rd:600ms">
+      <div class="panel" style="height:240px"><img class="mv-kb" src="https://commons.wikimedia.org/wiki/Special:FilePath/Kazakh_yurt.jpg?width=800" style="width:100%;height:100%;object-fit:cover"></div>
+      <div style="margin-top:18px;font-size:32px" class="gold"><b>Тұрмыс</b></div>
+      <div style="margin-top:8px;font-size:24px;line-height:1.6;color:#f0e9d6;font-weight:500">Көшпелі өмір салты практикалық, берік және жылжымалы бұйымдарды талап етті.</div>
+    </div>
+    <div class="rv rv-up" style="--rd:950ms">
+      <div class="panel" style="height:240px"><img class="mv-bob" src="https://commons.wikimedia.org/wiki/Special:FilePath/19._Horse._Burial_mound_Issyk_(V.-IV._B.C.)_Kazakhstan.JPG?width=800" style="width:100%;height:100%;object-fit:cover"></div>
+      <div style="margin-top:18px;font-size:32px" class="gold"><b>Шеберлік</b></div>
+      <div style="margin-top:8px;font-size:24px;line-height:1.6;color:#f0e9d6;font-weight:500">Қолөнер практикалық қажеттілік, көркемдік талғам және дәстүрлі білімді біріктірді.</div>
+    </div>
+    <div class="rv rv-up" style="--rd:1300ms">
+      <div class="panel" style="height:240px"><img class="mv-kb" src="https://commons.wikimedia.org/wiki/Special:FilePath/Kazakh_yurts_at_night_in_the_Kyzylkum_desert,_Uzbekistan.jpg?width=800" style="width:100%;height:100%;object-fit:cover"></div>
+      <div style="margin-top:18px;font-size:32px" class="gold"><b>Мәдени мұра</b></div>
+      <div style="margin-top:8px;font-size:24px;line-height:1.6;color:#f0e9d6;font-weight:500">Өрнектер, жасау техникасы және символдар ұрпақтан ұрпаққа жалғасты.</div>
+    </div>
+  </div>
+  <div style="position:absolute;left:110px;right:110px;bottom:64px">
+    <div class="rv rv-up pulse fact" style="--rd:2400ms"><span class="gold" style="font-size:18px;letter-spacing:.2em">ҚЫЗЫҚТЫ ФАКТ ◆</span><br>Көшпелі қоғамда бір бұйым бірнеше қызмет атқара алған: тұрмыстық, эстетикалық және символдық.</div>
+  </div>
+</section>
+
+<!-- SLIDE 4 -->
+<section class="slide" id="s4">
+  <div style="position:absolute;left:110px;top:64px">
+    <div class="rv" style="--rd:100ms"><span class="kick">02 — Қолөнер әлемі</span></div>
+    <h1 class="title rv rv-up" style="--rd:300ms;font-size:60px;margin-top:8px">Көшпелілердің <span class="gold">қолөнері</span></h1>
+  </div>
+  <span class="spark drift" style="position:absolute;right:130px;top:100px">✦</span>
+  <div style="position:absolute;left:110px;right:110px;top:230px;bottom:70px;display:grid;grid-template-columns:repeat(5,1fr);gap:22px">
+    <div class="rv rv-zoom" style="--rd:550ms;border-radius:16px;overflow:hidden;border:1px solid rgba(232,201,106,.3);background:#10173a;box-shadow:0 16px 44px rgba(0,0,0,.5)">
+      <div style="height:210px;overflow:hidden"><img class="mv-bob" src="https://commons.wikimedia.org/wiki/Special:FilePath/Saka_gold_objects.jpg?width=600" style="width:100%;height:100%;object-fit:cover"></div>
+      <div style="padding:16px 18px"><div style="font-size:18px;letter-spacing:.24em" class="gold">01</div><div style="font-size:25px;margin-top:4px"><b>Зергерлік өнер</b></div><div style="font-size:19px;line-height:1.5;color:#f0e9d6;margin-top:6px;font-weight:500">Күміс, алтын, асыл тастардан сырға, жүзік, білезік және тұмарлар жасалды.</div></div>
+    </div>
+    <div class="rv rv-zoom" style="--rd:830ms;border-radius:16px;overflow:hidden;border:1px solid rgba(232,201,106,.3);background:#10173a;box-shadow:0 16px 44px rgba(0,0,0,.5)">
+      <div style="height:210px;overflow:hidden"><img class="mv-kb" src="https://commons.wikimedia.org/wiki/Special:FilePath/20._Elk._Burial_mound_Issyk_(V.-IV._B.C.)_Kazakhstan.JPG?width=600" style="width:100%;height:100%;object-fit:cover"></div>
+      <div style="padding:16px 18px"><div style="font-size:18px;letter-spacing:.24em" class="gold">02</div><div style="font-size:25px;margin-top:4px"><b>Ұсталық өнер</b></div><div style="font-size:19px;line-height:1.5;color:#f0e9d6;margin-top:6px;font-weight:500">Темірден қару-жарақ, ат әбзелдері және тұрмыстық құралдар соғылды.</div></div>
+    </div>
+    <div class="rv rv-zoom" style="--rd:1110ms;border-radius:16px;overflow:hidden;border:1px solid rgba(232,201,106,.3);background:#10173a;box-shadow:0 16px 44px rgba(0,0,0,.5)">
+      <div style="height:210px;overflow:hidden"><img class="mv-float" src="https://commons.wikimedia.org/wiki/Special:FilePath/Traditional_Yurt_With_Traditional_Kazakh_Musical_Instruments_(7508130466).jpg?width=600" style="width:100%;height:100%;object-fit:cover"></div>
+      <div style="padding:16px 18px"><div style="font-size:18px;letter-spacing:.24em" class="gold">03</div><div style="font-size:25px;margin-top:4px"><b>Киіз өнери</b></div><div style="font-size:19px;line-height:1.5;color:#f0e9d6;margin-top:6px;font-weight:500">Текемет, сырмақ және басқа да киіз бұйымдары жасалды.</div></div>
+    </div>
+    <div class="rv rv-zoom" style="--rd:1390ms;border-radius:16px;overflow:hidden;border:1px solid rgba(232,201,106,.3);background:#10173a;box-shadow:0 16px 44px rgba(0,0,0,.5)">
+      <div style="height:210px;overflow:hidden"><img class="mv-bob" src="https://commons.wikimedia.org/wiki/Special:FilePath/1._Deer_in_Griffin%27s_beak,_burial_mound_Berel_(IV-III._B.C.)_Kazakstan.JPG?width=600" style="width:100%;height:100%;object-fit:cover"></div>
+      <div style="padding:16px 18px"><div style="font-size:18px;letter-spacing:.24em" class="gold">04</div><div style="font-size:25px;margin-top:4px"><b>Тері өңдеу</b></div><div style="font-size:19px;line-height:1.5;color:#f0e9d6;margin-top:6px;font-weight:500">Тері мен былғарыдан ыдыс, ат әбзелдері және тұрмыстық заттар жасалды.</div></div>
+    </div>
+    <div class="rv rv-zoom" style="--rd:1670ms;border-radius:16px;overflow:hidden;border:1px solid rgba(232,201,106,.3);background:#10173a;box-shadow:0 16px 44px rgba(0,0,0,.5)">
+      <div style="height:210px;overflow:hidden"><img class="mv-kb" src="https://commons.wikimedia.org/wiki/Special:FilePath/Kazakh_Yurt_frame.jpg?width=600" style="width:100%;height:100%;object-fit:cover"></div>
+      <div style="padding:16px 18px"><div style="font-size:18px;letter-spacing:.24em" class="gold">05</div><div style="font-size:25px;margin-top:4px"><b>Ағаш өңдеу</b></div><div style="font-size:19px;line-height:1.5;color:#f0e9d6;margin-top:6px;font-weight:500">Ағаштан ыдыс, жиһаз, музыкалық аспаптар және киіз үй бөлшектері жасалды.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 5 -->
+<section class="slide" id="s5">
+  <div style="position:absolute;inset:0;background:radial-gradient(70% 80% at 32% 50%,rgba(139,111,199,.18),transparent 65%)"></div>
+  <span class="spark drift" style="position:absolute;left:700px;top:110px">✦</span>
+  <div style="position:absolute;left:120px;top:80px;width:780px;z-index:3">
+    <div class="rv" style="--rd:100ms"><span class="kick">03 — Аң стилі</span></div>
+    <h1 class="title rv rv-up" style="--rd:300ms;font-size:65px;margin-top:8px">Аң стилі: табиғаттың<br><span class="gold">көркем бейнесі</span></h1>
+    <p class="rv rv-up" style="--rd:650ms;margin-top:26px;font-size:26px;line-height:1.65;color:#f0e9d6;font-weight:500;max-width:660px">«Аң стилі» — ежелгі көшпелілер өнерінде жануарларды бейнелеуге негізделген көркемдік дәстүр. Ол дала халықтарының өнерінде кең таралған.</p>
+    <div style="margin-top:30px;display:flex;flex-wrap:wrap;gap:12px;max-width:680px">
+      <div class="rv rv-pop chip" style="--rd:1000ms">◆ Жануарларды қозғалыста көрсету</div>
+      <div class="rv rv-pop chip" style="--rd:1180ms">◆ Бейнені стилизациялау</div>
+      <div class="rv rv-pop chip" style="--rd:1360ms">◆ Симметрия</div>
+      <div class="rv rv-pop chip" style="--rd:1540ms">◆ Динамика</div>
+      <div class="rv rv-pop chip" style="--rd:1720ms">◆ Табиғатпен байланыс</div>
+      <div class="rv rv-pop chip" style="--rd:1900ms">◆ Символдық мағына</div>
+    </div>
+    <div class="rv rv-up" style="--rd:2100ms;margin-top:28px;border-left:3px solid #e8c96a;padding:14px 22px;background:rgba(139,111,199,.12);font-size:23px;max-width:660px;color:#f0e9d6;font-weight:500">Жануар бейнесі тек әшекей емес — белгілі бір <span class="gold">күштің, қасиеттің</span> немесе дүниетанымдық ұғымның белгісі болған.</div>
+  </div>
+  <div style="position:absolute;right:40px;top:50%;transform:translateY(-50%);width:640px;height:640px;z-index:2">
+    <div class="orna spin" style="inset:0"><i></i></div>
+    <div class="orna spin-rev floaty" style="inset:44px;opacity:.6"><i></i></div>
+    <div class="rv rv-zoom glow" style="--rd:500ms;position:absolute;inset:70px"><img class="blend mv-float" src="https://commons.wikimedia.org/wiki/Special:FilePath/Arzhan_deer.jpg?width=900" style="width:100%;height:100%;object-fit:contain;border-radius:50%"></div>
+  </div>
+</section>
+<!-- SLIDE 6 -->
+<section class="slide" id="s6">
+  <div style="position:absolute;left:110px;top:64px;right:110px;display:flex;justify-content:space-between;align-items:flex-end">
+    <div>
+      <div class="rv" style="--rd:100ms"><span class="kick">04 — Жануарлар бейнесі</span></div>
+      <h1 class="title rv rv-up" style="--rd:300ms;font-size:60px;margin-top:8px">Аң стиліндегі <span class="gold">негізгі бейнелер</span></h1>
+    </div>
+    <div class="rv" style="--rd:600ms;font-size:19px;letter-spacing:.24em;color:#c9b6f2;font-weight:600">КҮШ • ЕРКІНДІК • РУХ</div>
+  </div>
+  <div style="position:absolute;left:110px;right:110px;top:225px;bottom:66px;display:grid;grid-template-columns:repeat(4,1fr);gap:22px">
+    <div class="rv rv-up animal" style="--rd:500ms">
+      <div style="flex:1;display:flex;align-items:center;justify-content:center;overflow:hidden"><img class="mv-bob" src="https://commons.wikimedia.org/wiki/Special:FilePath/015_Wild_Red_Deer_Switzerland_Photo_by_Giles_Laurent.jpg?width=700" style="width:100%;height:100%;object-fit:cover"></div>
+      <div><div style="font-family:Georgia,serif;font-size:40px;letter-spacing:.14em"><span class="gold"><b>БҰҒЫ</b></span></div>
+      <div style="font-size:21px;color:#f0e9d6;margin-top:6px;font-weight:500">Жаңару, өмір, табиғатпен байланыс</div></div>
+    </div>
+    <div class="rv rv-up animal" style="--rd:880ms">
+      <div style="flex:1;display:flex;align-items:center;justify-content:center;overflow:hidden"><img class="mv-kb" src="https://commons.wikimedia.org/wiki/Special:FilePath/012_Jaguar_entering_the_river_in_Encontro_das_%C3%81guas_State_Park_Photo_by_Giles_Laurent.jpg?width=700" style="width:100%;height:100%;object-fit:cover"></div>
+      <div><div style="font-family:Georgia,serif;font-size:40px;letter-spacing:.14em"><span class="gold"><b>БАРЫС</b></span></div>
+      <div style="font-size:21px;color:#f0e9d6;margin-top:6px;font-weight:500">Күш, батылдық, билік</div></div>
+    </div>
+    <div class="rv rv-up animal" style="--rd:1260ms">
+      <div style="flex:1;display:flex;align-items:center;justify-content:center;overflow:hidden"><img class="wing" src="https://commons.wikimedia.org/wiki/Special:FilePath/016_Wild_Golden_Eagle_in_flight_at_Pfyn-Finges_(Switzerland)_Photo_by_Giles_Laurent.jpg?width=700" style="width:100%;height:100%;object-fit:cover"></div>
+      <div><div style="font-family:Georgia,serif;font-size:40px;letter-spacing:.14em"><span class="gold"><b>БҮРКІТ</b></span></div>
+      <div style="font-size:21px;color:#f0e9d6;margin-top:6px;font-weight:500">Еркіндік, биіктік, рух</div></div>
+    </div>
+    <div class="rv rv-up animal" style="--rd:1640ms">
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;overflow:hidden">
+        <img class="glow" src="https://commons.wikimedia.org/wiki/Special:FilePath/Horse_gif.gif" style="width:85%;filter:invert(1);mix-blend-mode:screen">
+        <video id="horseVid" autoplay muted loop playsinline style="width:92%;border-radius:10px;border:1px solid rgba(232,201,106,.4)">
+          <source src="https://commons.wikimedia.org/wiki/Special:FilePath/Muybridge_race_horse.webm" type="video/webm">
+        </video>
+      </div>
+      <div><div style="font-family:Georgia,serif;font-size:40px;letter-spacing:.14em"><span class="gold"><b>ЖЫЛҚЫ</b></span></div>
+      <div style="font-size:21px;color:#f0e9d6;margin-top:6px;font-weight:500">Қозғалыс, еркіндік, көшпелі өмір</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 7 -->
+<section class="slide" id="s7">
+  <div style="position:absolute;left:110px;top:64px">
+    <div class="rv" style="--rd:100ms"><span class="kick">05 — Символдық мағынасы</span></div>
+    <h1 class="title rv rv-up" style="--rd:300ms;font-size:60px;margin-top:8px">Аң стилі <span class="gold">және дүниетаным</span></h1>
+  </div>
+  <div style="position:absolute;inset:0">
+    <svg viewBox="0 0 1600 900" style="position:absolute;inset:0;width:100%;height:100%">
+      <path class="draw" pathLength="1" d="M800 470 L330 330" stroke="#e8c96a" stroke-width="2" fill="none" opacity=".85"/>
+      <path class="draw" pathLength="1" d="M800 470 L1270 330" stroke="#e8c96a" stroke-width="2" fill="none" opacity=".85" style="--rd:300ms"/>
+      <path class="draw" pathLength="1" d="M800 470 L330 700" stroke="#8b6fc7" stroke-width="2" fill="none" opacity=".85" style="--rd:600ms"/>
+      <path class="draw" pathLength="1" d="M800 470 L1270 700" stroke="#8b6fc7" stroke-width="2" fill="none" opacity=".85" style="--rd:900ms"/>
+    </svg>
+    <div class="rv rv-zoom pulse" style="--rd:100ms;position:absolute;left:50%;top:470px;transform:translate(-50%,-50%);width:260px;height:260px;border-radius:50%;background:radial-gradient(circle at 38% 32%,#f3dd9a,#d4af37 55%,#8a6a1c);display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 0 80px rgba(212,175,55,.5)">
+      <div style="font-family:Georgia,serif;font-weight:700;font-size:46px;color:#241a04;letter-spacing:.06em">ТАБИҒАТ</div>
+      <div style="font-size:17px;color:#4a3a10;letter-spacing:.3em;margin-top:6px">МЕКЕН • КҮШ • РУХ</div>
+    </div>
+    <div class="rv rv-pop" style="--rd:1000ms;position:absolute;left:330px;top:330px;transform:translate(-50%,-50%);border:1px solid rgba(232,201,106,.55);background:rgba(10,15,40,.92);border-radius:14px;padding:16px 26px;text-align:center;box-shadow:0 0 30px rgba(0,0,0,.5)">
+      <div style="font-family:Georgia,serif;font-size:29px;letter-spacing:.1em" class="gold"><b>АДАМ</b></div>
+      <div style="font-size:19px;color:#e8e0ca;margin-top:4px;font-weight:500">табиғаттың бір бөлегі</div></div>
+    <div class="rv rv-pop" style="--rd:1250ms;position:absolute;left:1270px;top:330px;transform:translate(-50%,-50%);border:1px solid rgba(232,201,106,.55);background:rgba(10,15,40,.92);border-radius:14px;padding:16px 26px;text-align:center;box-shadow:0 0 30px rgba(0,0,0,.5)">
+      <div style="font-family:Georgia,serif;font-size:29px;letter-spacing:.1em" class="gold"><b>ЖАНУАР</b></div>
+      <div style="font-size:19px;color:#e8e0ca;margin-top:4px;font-weight:500">күш пен рухтың белгісі</div></div>
+    <div class="rv rv-pop" style="--rd:1500ms;position:absolute;left:330px;top:700px;transform:translate(-50%,-50%);border:1px solid rgba(232,201,106,.55);background:rgba(10,15,40,.92);border-radius:14px;padding:16px 26px;text-align:center;box-shadow:0 0 30px rgba(0,0,0,.5)">
+      <div style="font-family:Georgia,serif;font-size:29px;letter-spacing:.1em" class="gold"><b>РУХАНИ ӘЛЕМ</b></div>
+      <div style="font-size:19px;color:#e8e0ca;margin-top:4px;font-weight:500">сенім мен дастүр</div></div>
+    <div class="rv rv-pop" style="--rd:1750ms;position:absolute;left:1270px;top:700px;transform:translate(-50%,-50%);border:1px solid rgba(232,201,106,.55);background:rgba(10,15,40,.92);border-radius:14px;padding:16px 26px;text-align:center;box-shadow:0 0 30px rgba(0,0,0,.5)">
+      <div style="font-family:Georgia,serif;font-size:29px;letter-spacing:.1em" class="gold"><b>БЕРЕКЕ</b></div>
+      <div style="font-size:19px;color:#e8e0ca;margin-top:4px;font-weight:500">қорғаныш пен қамқорлық</div></div>
+  </div>
+  <div style="position:absolute;left:110px;right:110px;bottom:44px" class="rv rv-up">
+    <div style="display:flex;justify-content:center;gap:18px;font-size:22px;color:#f0e9d6;font-weight:500">
+      <span class="chip">табиғатты құрметтеу</span><span class="chip">күш пен еркіндік</span>
+      <span class="chip">өмірдің үздіксіздігі</span><span class="chip">қорғаныш пен береке</span>
+    </div>
+    <div style="text-align:center;margin-top:14px;font-size:21px;color:#d9d2f5;font-weight:500">Көшпелілер үшін адам табиғаттан жеке қарастырылған емес — адам мен табиғат, жануар мен рухани әлем бір бүтін дүниетанымды құрады.</div>
+  </div>
+</section>
+
+<!-- SLIDE 8 (ИСПРАВЛЕН) -->
+<section class="slide" id="s8">
+  <div style="position:absolute;left:110px;top:64px">
+    <div class="rv" style="--rd:100ms"><span class="kick">06 — Қазіргі мәдениет</span></div>
+    <h1 class="title rv rv-up" style="--rd:300ms;font-size:60px;margin-top:8px">Аң стилі — <span class="gold">бүгінгі мәдениетте</span></h1>
+  </div>
+  <span class="spark drift" style="position:absolute;right:180px;top:110px">✦</span>
+  <div style="position:absolute;left:110px;right:110px;top:225px;bottom:330px;display:grid;grid-template-columns:1fr 260px 1fr;gap:30px;align-items:stretch">
+    <div class="rv rv-left" style="--rd:500ms;position:relative">
+      <div class="panel" style="height:100%;display:flex;align-items:center;justify-content:center"><img class="blend mv-bob" src="https://commons.wikimedia.org/wiki/Special:FilePath/Arzhan_deer.jpg?width=900" style="width:85%"></div>
+      <div style="position:absolute;left:0;right:0;bottom:0;padding:16px 22px;background:linear-gradient(transparent,rgba(4,6,15,.92));font-size:29px" class="gold"><b>ЕЖЕЛГІ</b><span style="font-size:19px;color:#f0e9d6;margin-left:12px;font-weight:600">сақ алтын бұғысы</span></div>
+    </div>
+    <div style="position:relative;display:flex;align-items:center;justify-content:center">
+      <div class="rv" style="--rd:900ms;position:absolute;left:-10px;right:-10px;top:50%;height:2px;background:linear-gradient(90deg,#e8c96a,#8b6fc7,#e8c96a);box-shadow:0 0 18px rgba(232,201,106,.9)"></div>
+      <div class="rv rv-zoom shimmer" style="--rd:1100ms;position:relative;width:92px;height:92px;border-radius:50%;border:2px solid #e8c96a;background:rgba(12,18,48,.9);display:flex;align-items:center;justify-content:center;font-size:34px;color:#e8c96a;box-shadow:0 0 34px rgba(232,201,106,.55)">→</div>
+    </div>
+    <div class="rv rv-right" style="--rd:1400ms;position:relative">
+      <div class="panel" style="height:100%;display:flex;align-items:center;justify-content:center"><img class="mv-kb" src="https://commons.wikimedia.org/wiki/Special:FilePath/18._Flying_elk_with_griffin_burial_mound_Issyk_(V.-IV._B.C.)_Kazakhstan.JPG?width=900" style="width:100%;height:100%;object-fit:cover"></div>
+      <div style="position:absolute;left:0;right:0;bottom:0;padding:16px 22px;background:linear-gradient(transparent,rgba(4,6,15,.92));font-size:29px;color:#cfc0f0"><b>ҚАЗІРГІ</b><span style="font-size:19px;color:#f0e9d6;margin-left:12px;font-weight:600">ұлттық мотивтер өнерде</span></div>
+    </div>
+  </div>
+  <div style="position:absolute;left:110px;right:110px;bottom:60px;display:grid;grid-template-columns:repeat(5,1fr);gap:16px">
+    <div class="rv rv-up" style="--rd:1800ms;border:1px solid rgba(232,201,106,.55);background:rgba(232,201,106,.1);border-radius:12px;padding:16px 18px;min-height:118px"><div style="font-size:21px;color:#e8c96a"><b>◆ Сән дизайны</b></div><div style="font-size:18px;color:#f7f1de;margin-top:6px;line-height:1.4;font-weight:600">Ұлттық өрнек пен жануар бейнелері киімде</div></div>
+    <div class="rv rv-up" style="--rd:1960ms;border:1px solid rgba(232,201,106,.55);background:rgba(232,201,106,.1);border-radius:12px;padding:16px 18px;min-height:118px"><div style="font-size:21px;color:#e8c96a"><b>◆ Зергерлік өнер</b></div><div style="font-size:18px;color:#f7f1de;margin-top:6px;line-height:1.4;font-weight:600">Ежелгі мотивтер заманауи әшекейлерде</div></div>
+    <div class="rv rv-up" style="--rd:2120ms;border:1px solid rgba(232,201,106,.55);background:rgba(232,201,106,.1);border-radius:12px;padding:16px 18px;min-height:118px"><div style="font-size:21px;color:#e8c96a"><b>◆ Графикалық дизайн</b></div><div style="font-size:18px;color:#f7f1de;margin-top:6px;line-height:1.4;font-weight:600">Логотиптер, иллюстрациялар, плакаттар</div></div>
+    <div class="rv rv-up" style="--rd:2280ms;border:1px solid rgba(232,201,106,.55);background:rgba(232,201,106,.1);border-radius:12px;padding:16px 18px;min-height:118px"><div style="font-size:21px;color:#e8c96a"><b>◆ Архитектура</b></div><div style="font-size:18px;color:#f7f1de;margin-top:6px;line-height:1.4;font-weight:600">Ұлттық мотивтер ғимараттар мен кеңістіктерде</div></div>
+    <div class="rv rv-up" style="--rd:2440ms;border:1px solid rgba(232,201,106,.55);background:rgba(232,201,106,.1);border-radius:12px;padding:16px 18px;min-height:118px"><div style="font-size:21px;color:#e8c96a"><b>◆ Мәдени бренд</b></div><div style="font-size:18px;color:#f7f1de;margin-top:6px;line-height:1.4;font-weight:600">Тарихи-мәдени ерекшелік символы</div></div>
+  </div>
+</section>
+
+<!-- SLIDE 9 -->
+<section class="slide" id="s9">
+  <div style="position:absolute;left:110px;top:64px">
+    <div class="rv" style="--rd:100ms"><span class="kick">07 — Қорытынды</span></div>
+    <h1 class="title rv rv-up" style="--rd:300ms;font-size:60px;margin-top:8px">Қорытынды</h1>
+  </div>
+  <span class="spark floaty" style="position:absolute;left:820px;top:150px">✦</span>
+  <div style="position:absolute;left:110px;top:230px;width:900px;display:grid;grid-template-columns:1fr 1fr;gap:26px 40px">
+    <div class="rv rv-left" style="--rd:600ms;display:flex;gap:20px;align-items:flex-start;border-left:3px solid #e8c96a;padding:6px 0 6px 22px">
+      <div style="font-family:Georgia,serif;font-size:67px;color:rgba(232,201,106,.45);line-height:1">01</div>
+      <div><div style="font-family:Georgia,serif;font-size:38px;letter-spacing:.1em"><span class="gold"><b>ҚОЛӨНЕР</b></span></div>
+      <div style="font-size:23px;color:#f0e9d6;margin-top:6px;font-weight:500">Көшпелілердің тұрмысын қамтамасыз етті.</div></div></div>
+    <div class="rv rv-left" style="--rd:1020ms;display:flex;gap:20px;align-items:flex-start;border-left:3px solid #e8c96a;padding:6px 0 6px 22px">
+      <div style="font-family:Georgia,serif;font-size:67px;color:rgba(232,201,106,.45);line-height:1">02</div>
+      <div><div style="font-family:Georgia,serif;font-size:38px;letter-spacing:.1em"><span class="gold"><b>ШЕБЕРЛІК</b></span></div>
+      <div style="font-size:23px;color:#f0e9d6;margin-top:6px;font-weight:500">Ұрпақтан ұрпаққа берілген тәжірибені сақтады.</div></div></div>
+    <div class="rv rv-left" style="--rd:1440ms;display:flex;gap:20px;align-items:flex-start;border-left:3px solid #e8c96a;padding:6px 0 6px 22px">
+      <div style="font-family:Georgia,serif;font-size:67px;color:rgba(232,201,106,.45);line-height:1">03</div>
+      <div><div style="font-family:Georgia,serif;font-size:38px;letter-spacing:.1em"><span class="gold"><b>АҢ СТИЛІ</b></span></div>
+      <div style="font-size:23px;color:#f0e9d6;margin-top:6px;font-weight:500">Табиғат пен адам арасындағы байланысты көрсетті.</div></div></div>
+    <div class="rv rv-left" style="--rd:1860ms;display:flex;gap:20px;align-items:flex-start;border-left:3px solid #e8c96a;padding:6px 0 6px 22px">
+      <div style="font-family:Georgia,serif;font-size:67px;color:rgba(232,201,106,.45);line-height:1">04</div>
+      <div><div style="font-family:Georgia,serif;font-size:38px;letter-spacing:.1em"><span class="gold"><b>МҰРА</b></span></div>
+      <div style="font-size:23px;color:#f0e9d6;margin-top:6px;font-weight:500">Бүгінгі ұлттық мәдениетте өз жалғасын тауып отыр.</div></div></div>
+  </div>
+  <div class="rv rv-up" style="--rd:2500ms;position:absolute;left:110px;bottom:70px;font-family:Georgia,serif;font-size:36px;color:#f7f1de;font-style:italic">«Өткеннің өнері — <span class="gold">бүгіннің мәдени мұрасы.</span>»</div>
+  <div class="rv rv-zoom glow" style="--rd:3000ms;position:absolute;right:80px;bottom:30px;width:460px"><img class="blend mv-float" src="https://commons.wikimedia.org/wiki/Special:FilePath/Arzhan_deer.jpg?width=900" style="width:100%"></div>
+</section>
+
+<!-- SLIDE 10 -->
+<section class="slide" id="s10">
+  <div class="orna spin" style="left:50%;top:50%;width:700px;height:700px;transform:translate(-50%,-50%);opacity:.25"><i></i></div>
+  <span class="spark drift" style="position:absolute;left:960px;top:130px">✦</span>
+  <div style="position:absolute;left:110px;top:70px;width:880px;z-index:2">
+    <div class="rv" style="--rd:100ms"><span class="kick">Дереккөздер</span></div>
+    <h1 class="title rv rv-up" style="--rd:300ms;font-size:58px;margin-top:8px">Пайдаланылған <span class="gold">әдебиеттер</span></h1>
+    <div id="litlist" style="margin-top:44px;display:flex;flex-direction:column;gap:20px">
+      <div class="rv rv-left" style="--rd:600ms;display:flex;gap:18px;font-size:26px;color:#f0e9d6;font-weight:600"><span class="gold" style="font-family:Georgia,serif;font-size:28px">1.</span><span>Марғұлан Ә.Х. Қазақ халқының қолөнері.</span></div>
+      <div class="rv rv-left" style="--rd:930ms;display:flex;gap:18px;font-size:26px;color:#f0e9d6;font-weight:600"><span class="gold" style="font-family:Georgia,serif;font-size:28px">2.</span><span>Қазақстан тарихы: көне дәуірден бүгінгі күнге дейін.</span></div>
+      <div class="rv rv-left" style="--rd:1260ms;display:flex;gap:18px;font-size:26px;color:#f0e9d6;font-weight:600"><span class="gold" style="font-family:Georgia,serif;font-size:28px">3.</span><span>Қазақстан Ұлттық энциклопедиясы.</span></div>
+      <div class="rv rv-left" style="--rd:1590ms;display:flex;gap:18px;font-size:26px;color:#f0e9d6;font-weight:600"><span class="gold" style="font-family:Georgia,serif;font-size:28px">4.</span><span>Ежелгі Қазақстанның археологиялық мәдениеті туралы ғылыми еңбектер.</span></div>
+      <div class="rv rv-left" style="--rd:1920ms;display:flex;gap:18px;font-size:26px;color:#f0e9d6;font-weight:600"><span class="gold" style="font-family:Georgia,serif;font-size:28px">5.</span><span>Көшпелілердің өнері мен мәдениеті туралы зерттеулер.</span></div>
+    </div>
+  </div>
+  <div class="rv rv-right" style="--rd:800ms;position:absolute;right:70px;top:50%;transform:translateY(-50%);width:360px;z-index:2">
+    <div class="panel" style="height:520px"><img class="mv-kb" src="https://commons.wikimedia.org/wiki/Special:FilePath/Saka_gold_objects.jpg?width=700" style="width:100%;height:100%;object-fit:cover"></div>
+    <div style="text-align:center;margin-top:12px;font-size:17px;letter-spacing:.22em;color:rgba(232,201,106,.9);font-weight:600">САҚА АЛТЫН БҰЙЫМДАРЫ • ИСЫҚ ҚОРҒАНЫ</div>
+  </div>
+  <div id="thanks">
+    <div class="orna spin" style="position:relative;width:380px;height:380px;margin-bottom:20px"><i></i><img class="blend mv-float" src="https://commons.wikimedia.org/wiki/Special:FilePath/Arzhan_deer.jpg?width=600" style="position:absolute;inset:60px;width:260px"></div>
+    <div style="font-family:Georgia,serif;font-size:77px;color:#f7f1de;text-shadow:0 6px 40px rgba(0,0,0,.6)">Назарларыңызға <span class="gold">рақмет!</span></div>
+    <div class="rule" style="margin-top:26px"></div>
+  </div>
+</section>
+
+</div></div>
+<div id="hint">← → АРАЛЫҚ — НАВИГАЦИЯ</div>
+<div id="counter">01 / 10</div>
+<div id="hud"><button id="pb">‹</button><div id="dots"></div><button id="nb">›</button></div>
+
+<script>
+const stage=document.getElementById('stage');
+function fit(){const s=Math.min(innerWidth/1600,innerHeight/900);stage.style.transform='scale('+s+')';}
+addEventListener('resize',fit);fit();
+
+const plan=[['01','Кіріспе','Көшпелі мәдениет және қолөнер','📖'],['02','Қолөнер әлемі','Қолөнердің негізгі түрлері','🔨'],['03','Аң стилі','Пайда болуы және ерекшеліктері','🦌'],['04','Жануарлар бейнесі','Бұғы, барыс, бүркіт және т.б.','🦅'],['05','Символдық мағынасы','Жануарлар бейнесінің мәні','🪢'],['06','Қазіргі мәдениет','Аң стилінің бүгінгі жалғасы','✒️'],['07','Қорытынды','','⭐']];
+document.getElementById('planbox').innerHTML=plan.map((p,i)=>{const d=500+i*300;return `<div class="rv rv-left" style="--rd:${d}ms;display:flex;align-items:center;gap:26px">
+  <div style="width:20px;height:20px;border-radius:50%;background:#0c1230;border:3px solid #e8c96a;box-shadow:0 0 12px rgba(232,201,106,.7);margin-left:-54px;flex:none"></div>
+  <div class="rv rv-pop glow" style="--rd:${d+150}ms;width:58px;height:58px;flex:none;border-radius:14px;border:1px solid rgba(232,201,106,.4);background:rgba(139,111,199,.14);display:flex;align-items:center;justify-content:center;font-size:26px">${p[3]}</div>
+  <div style="font-size:26px"><span class="gold" style="font-family:Georgia,serif;font-size:31px;margin-right:16px">${p[0]}</span><b>${p[1]}</b><span style="color:#d9d2f5;font-size:22px;margin-left:14px;font-weight:500">${p[2]}</span></div></div>`;}).join('');
+
+const slides=[...document.querySelectorAll('.slide')];
+const dotsBox=document.getElementById('dots');
+let cur=-1, timers=[], phase2done=false;
+slides.forEach((sl,i)=>{const d=document.createElement('div');d.className='dot';d.onclick=()=>show(i);dotsBox.appendChild(d);});
+const dots=[...dotsBox.children];
+const counter=document.getElementById('counter');
+function clearTimers(){timers.forEach(t=>clearTimeout(t));timers=[];}
+function revealAll(sl){sl.querySelectorAll('.rv').forEach(el=>el.classList.add('on'));}
+function show(i){
+  if(i<0||i>=slides.length)return;
+  clearTimers();cur=i;phase2done=false;
+  slides.forEach((sl,k)=>{sl.classList.remove('active','phase2');sl.querySelectorAll('.rv').forEach(el=>el.classList.remove('on'));});
+  const sl=slides[i];sl.classList.add('active');
+  const rvs=[...sl.querySelectorAll('.rv')];
+  rvs.forEach(el=>{const d=parseInt(el.style.getPropertyValue('--rd'))||0;timers.push(setTimeout(()=>el.classList.add('on'),80+d));});
+  dots.forEach((d,k)=>d.classList.toggle('on',k===i));
+  counter.textContent=String(i+1).padStart(2,'0')+' / 10';
+}
+function next(){
+  const sl=slides[cur];if(!sl)return;
+  if(sl.id==='s10'&&!phase2done){
+    const rvs=[...sl.querySelectorAll('.rv')];
+    if(!rvs.every(el=>el.classList.contains('on'))){revealAll(sl);return;}
+    phase2done=true;sl.classList.add('phase2');return;
+  }
+  const rvs=[...sl.querySelectorAll('.rv')];
+  if(!rvs.every(el=>el.classList.contains('on'))){revealAll(sl);return;}
+  show(cur+1);
+}
+function prev(){if(cur>0)show(cur-1);}
+document.getElementById('nb').onclick=next;
+document.getElementById('pb').onclick=prev;
+addEventListener('keydown',e=>{
+  if(['ArrowRight','ArrowDown','PageDown',' '].includes(e.key)){e.preventDefault();next();}
+  if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){e.preventDefault();prev();}
+  if(e.key==='Home')show(0);if(e.key==='End')show(9);
+});
+let wheelLock=0;
+addEventListener('wheel',e=>{const now=Date.now();if(now-wheelLock<900)return;if(Math.abs(e.deltaY)>20){wheelLock=now;e.deltaY>0?next():prev();}},{passive:true});
+let tx=null;
+addEventListener('touchstart',e=>tx=e.touches[0].clientX,{passive:true});
+addEventListener('touchend',e=>{if(tx===null)return;const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>60){dx<0?next():prev();}tx=null;},{passive:true});
+stage.addEventListener('click',e=>{if(e.target.closest('button'))return;next();});
+
+const hv=document.getElementById('horseVid');
+if(hv)hv.addEventListener('timeupdate',()=>{if(hv.currentTime>=10)hv.currentTime=0;});
+
+const cv=document.getElementById('dust'),cx=cv.getContext('2d');
+let W,H,ps=[];
+function resize(){W=cv.width=innerWidth;H=cv.height=innerHeight;}
+addEventListener('resize',resize);resize();
+for(let i=0;i<80;i++)ps.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*2.2+.4,s:Math.random()*.35+.08,tw:Math.random()*6.28,vx:(Math.random()-.5)*.18});
+function tick(){
+  cx.clearRect(0,0,W,H);
+  ps.forEach(p=>{p.y-=p.s;p.x+=p.vx;p.tw+=.03;if(p.y<-10){p.y=H+10;p.x=Math.random()*W;}
+    cx.beginPath();cx.arc(p.x,p.y,p.r,0,7);cx.fillStyle='rgba(232,201,106,'+(.25+Math.sin(p.tw)*.22)+')';cx.fill();});
+  requestAnimationFrame(tick);
+}
+tick();
+show(0);
+</script>
+</body>
+</html>
